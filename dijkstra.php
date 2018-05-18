@@ -2,13 +2,6 @@
 
 // Complete the shortestReach function below.
 function shortestReach($n, $edges, $s) {
-    print_r ($n);
-    echo "<br>";
-    print_r ($edges);
-    echo "<br>";
-    print_r ($s);
-    exit;
-
     $sOrigem = 0;
     $sCongelado = $s;
     $m = count($edges);
@@ -66,7 +59,7 @@ function shortestReach($n, $edges, $s) {
           //atualizando dos pontos percurso A -> B -> C ==> A -> C
           if (empty($percurso[$idPercurso]['start']))
               $percurso[$idPercurso]['start'] = $startEnd[0];
-          $percurso[$idPercurso]['finaly'] = $startEnd[1];
+          $percurso[$idPercurso]['finally'] = $startEnd[1];
           //concatenando os trechos percorridos da rota.
           if (!isset($percurso[$idPercurso]['route']))
               $percurso[$idPercurso]['route'] = null;
@@ -77,33 +70,30 @@ function shortestReach($n, $edges, $s) {
           break;
         }
         $verify++;
+        //Montando todos os percursos possíveis.
         $jumpsVerify++;
       }
+     //Verificando os trajetos já traçados.
     } while ($verify < $n);
+    //Retornando o valor inicial de $s.
     $s = $sCongelado;
+    //Determinando $sOrigem como 0 novamente.
     $sOrigem = 0;
-    //$idPercurso = $idPercursoFracao;
+    // Incrementando $idPercurso.
     $idPercurso++;
+    //Efetuando a verificação dos saltos, que são as vezes que o código percorre as possibilidades de nós.
   } while ($jumpsVerify <= $jumps);
-    /* [1] => Array
-        (
-            [distance] => 24
-            [start] => 1
-            [finaly] => 2
-            [route] => 1_2,
-        )
-    */
+    //Deletando os percursos maiores que aparecerem com ['start'] e ['finally'] iguais.
   for($i = 1;$i <= count($percurso); $i++){
-    //$percurso[$i]
     for($j = 1;$j <= count($percurso); $j++){
-      //$percurso[$i]['deleted'] = false;
       if($percurso[$i]['start'] == $percurso[$j]['start']
-        && $percurso[$i]['finaly'] == $percurso[$j]['finaly']
+        && $percurso[$i]['finally'] == $percurso[$j]['finally']
         && $percurso[$i]['distance'] > $percurso[$j]['distance'])
           $percurso[$i]['deleted'] = true;
     }
   }
-    for($i = 0;$i <= count($percurso); $i++)
+    //imprimindo o resultado ($result).
+    for($i = 1;$i <= count($percurso); $i++)
       if (!isset($percurso[$i]['deleted']))
       $result[] = $percurso[$i]['distance'];
      return $result;
